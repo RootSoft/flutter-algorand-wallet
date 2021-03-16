@@ -1,0 +1,72 @@
+name: flutter_algorand_wallet
+description: A new Flutter project.
+version: 1.0.0+1
+
+publish_to: none
+
+environment:
+  sdk: '>=2.12.0 <3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Algorand
+  algorand_dart: ^0.0.2-beta.3
+
+  # State Management & BLoC
+  provider: ^5.0.0
+  bloc: ^7.0.0-nullsafety.3
+  flutter_bloc: ^7.0.0-nullsafety.5
+  equatable: ^2.0.0
+
+  # Fluro - Routing
+  fluro: ^2.0.3
+
+  # get_it - Service location
+  get_it: ^6.0.0
+
+  # Hive - database
+  hive: ^2.0.0
+  hive_flutter: ^1.0.0
+
+  # Convert
+  convert: ^3.0.0
+
+  cupertino_icons: ^1.0.2
+
+  feather_icons: ^1.1.0-nullsafety.0
+
+  flutter_spinbox: ^0.4.0-nullsafety.0
+
+  qr_flutter: ^4.0.0
+
+  rxdart: ^0.26.0
+
+  adaptive_dialog: ^0.10.0+5
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # Testing framework
+  test: ^1.16.5
+
+  # Build Runner & Source Generation
+  build_runner: ^1.11.5
+
+  # JSON serialization
+  json_serializable: ^4.0.2
+
+  # Hive generation
+  hive_generator: ^1.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/illustrations/
+    - assets/icons/
+    - assets/images/
+    - assets/strings/
+    - assets/security/
