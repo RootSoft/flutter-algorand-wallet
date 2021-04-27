@@ -60,41 +60,74 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
       // Sync the assets locally
       final assets = await syncAssets(information.assets);
 
+      final algorandAsset = AlgorandStandardAsset(
+        id: -1,
+        name: 'Algorand',
+        unitName: 'Algo',
+        amount: information.amountWithoutPendingRewards,
+        decimals: 6,
+      );
+
+      // Add Algorand as first item
+      assets.insert(0, algorandAsset);
+
       yield DashboardSuccess(
         account: account,
         information: information,
         assets: assets,
         selectedAsset: assets.firstOrNull,
       );
+
+      // Load the transactions for your Algo's.
+      setSelectedAsset(algorandAsset);
     }
 
     if (event is DashboardAssetChanged && currentState is DashboardSuccess) {
-      yield currentState.copyWith(asset: event.asset, transactions: []);
-
-      // Fetch the transactions for the account
-      final transactionsResponse = await algorand
-          .indexer()
-          .transactions()
-          .forAccount(account.publicAddress)
-          .whereAssetId(event.asset.id)
-          .whereTransactionType(TransactionType.ASSET_TRANSFER)
-          .search(limit: 50);
-
-      // Map tx's to tx events for easier display
-      final txEvents = transactionsResponse.transactions
-          .map(
-            (tx) => TransactionEvent.fromTransaction(
-              account: account,
-              transaction: tx,
-              decimals: event.asset.decimals,
-            ),
-          )
-          .toList();
-
       yield currentState.copyWith(
         asset: event.asset,
-        transactions: txEvents,
+        transactions: [],
+        isFetchingTransactions: true,
       );
+
+      // Fetch the transactions for the account
+      try {
+        SearchTransactionsResponse transactionsResponse;
+        if (event.asset.id == -1) {
+          transactionsResponse = await algorand
+              .indexer()
+              .transactions()
+              .forAccount(account.publicAddress)
+              .whereTransactionType(TransactionType.PAYMENT)
+              .search(limit: 50);
+        } else {
+          transactionsResponse = await algorand
+              .indexer()
+              .transactions()
+              .forAccount(account.publicAddress)
+              .whereAssetId(event.asset.id)
+              .whereTransactionType(TransactionType.ASSET_TRANSFER)
+              .search(limit: 50);
+        }
+
+        // Map tx's to tx events for easier display
+        final txEvents = transactionsResponse.transactions
+            .map(
+              (tx) => TransactionEvent.fromTransaction(
+                account: account,
+                transaction: tx,
+                decimals: event.asset.decimals,
+              ),
+            )
+            .toList();
+
+        yield currentState.copyWith(
+          asset: event.asset,
+          transactions: txEvents,
+          isFetchingTransactions: false,
+        );
+      } catch (ex) {
+        print(ex);
+      }
     }
 
     if (event is DashboardCompoundStarted && currentState is DashboardSuccess) {

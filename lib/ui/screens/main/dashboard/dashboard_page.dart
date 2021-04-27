@@ -138,15 +138,26 @@ class _DashboardPageState extends State<DashboardPage>
 
                     /// Build the transactions
                     Expanded(
-                      child: ListView.separated(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        itemCount: transactions.length,
-                        itemBuilder: (widget, index) => TransactionTile(
-                          transaction: transactions[index],
-                        ),
-                        separatorBuilder: (BuildContext context, int index) {
-                          return Divider(color: Palette.activeColor);
+                      child: Builder(
+                        builder: (_) {
+                          if (state.isFetchingTransactions) {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+
+                          return ListView.separated(
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            itemCount: transactions.length,
+                            itemBuilder: (widget, index) => TransactionTile(
+                              transaction: transactions[index],
+                            ),
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return Divider(color: Palette.activeColor);
+                            },
+                          );
                         },
                       ),
                     ),

@@ -22,9 +22,14 @@ class TransactionEvent extends Equatable {
     required Transaction transaction,
     required int decimals,
   }) {
+    final isAssetTransfer = transaction.assetTransferTransaction != null;
     final sender = transaction.sender;
-    final receiver = transaction.assetTransferTransaction?.receiver ?? '';
-    final amount = transaction.assetTransferTransaction?.amount ?? 0;
+    final receiver = isAssetTransfer
+        ? transaction.assetTransferTransaction?.receiver
+        : transaction.payment?.receiver;
+    final amount = isAssetTransfer
+        ? transaction.assetTransferTransaction?.amount
+        : transaction.payment?.amount;
 
     TransactionEventType type = TransactionEventType.UNKNOWN;
     if (sender == account.publicAddress && receiver == account.publicAddress) {
@@ -38,8 +43,8 @@ class TransactionEvent extends Equatable {
     return TransactionEvent(
       type: type,
       sender: sender,
-      receiver: receiver,
-      amount: amount,
+      receiver: receiver ?? '',
+      amount: amount ?? 0,
       decimals: decimals,
     );
   }

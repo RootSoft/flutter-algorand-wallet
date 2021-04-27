@@ -22,6 +22,7 @@ class DashboardSuccess extends DashboardState {
   final List<AlgorandStandardAsset> assets;
   final AlgorandStandardAsset? selectedAsset;
   final List<TransactionEvent> transactions;
+  final bool isFetchingTransactions;
 
   DashboardSuccess({
     required this.account,
@@ -29,11 +30,13 @@ class DashboardSuccess extends DashboardState {
     required this.assets,
     required this.selectedAsset,
     this.transactions = const [],
+    this.isFetchingTransactions = false,
   });
 
   DashboardSuccess copyWith({
     AlgorandStandardAsset? asset,
     List<TransactionEvent>? transactions,
+    bool? isFetchingTransactions,
   }) {
     return DashboardSuccess(
       account: account,
@@ -41,6 +44,8 @@ class DashboardSuccess extends DashboardState {
       assets: assets,
       selectedAsset: asset ?? selectedAsset,
       transactions: transactions ?? this.transactions,
+      isFetchingTransactions:
+          isFetchingTransactions ?? this.isFetchingTransactions,
     );
   }
 
@@ -50,6 +55,7 @@ class DashboardSuccess extends DashboardState {
         information,
         ...assets,
         selectedAsset,
-        ...transactions
+        ...transactions,
+        isFetchingTransactions,
       ];
 }
