@@ -9,10 +9,37 @@ import 'package:flutter_algorand_wallet/ui/components/buttons/rounded_button.dar
 import 'package:flutter_algorand_wallet/ui/components/spacing.dart';
 import 'package:flutter_algorand_wallet/ui/screens/asset/asset_transfer_screen.dart';
 import 'package:flutter_algorand_wallet/ui/screens/main/dashboard/dashboard.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class DashboardPage extends StatelessWidget {
+class DashboardPage extends StatefulWidget {
+  @override
+  _DashboardPageState createState() => _DashboardPageState();
+}
+
+class _DashboardPageState extends State<DashboardPage>
+    with WidgetsBindingObserver {
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      BlocProvider.of<DashboardBloc>(context, listen: false).reload();
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance?.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance?.removeObserver(this);
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final state = context.watch<DashboardBloc>().state;
@@ -151,6 +178,16 @@ class DashboardPage extends StatelessWidget {
                     ),
               ),
               Spacer(),
+              IconButton(
+                icon: Icon(FeatherIcons.creditCard),
+                onPressed: () async {
+                  await launch(
+                    'https://bank.testnet.algorand.network/?account=${account.publicAddress}',
+                    forceWebView: true,
+                    enableJavaScript: true,
+                  );
+                },
+              ),
               IconButton(
                 icon: Icon(FeatherIcons.book),
                 onPressed: () async {
