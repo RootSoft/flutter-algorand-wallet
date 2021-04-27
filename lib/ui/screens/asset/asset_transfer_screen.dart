@@ -1,3 +1,4 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:algorand_dart/algorand_dart.dart';
 import 'package:flutter_algorand_wallet/theme/themes.dart';
 import 'package:flutter_algorand_wallet/ui/components/buttons/rounded_button.dart';
@@ -29,12 +30,33 @@ class _AssetTransferScreenState extends State<AssetTransferScreen> {
         child: Padding(
           padding: EdgeInsets.all(paddingSizeDefault),
           child: BlocConsumer<AssetTransferBloc, AssetTransferState>(
-            listener: (context, state) {
+            listener: (context, state) async {
               if (state is AssetTransferSentSuccess) {
+                router.pop(context);
+              }
+
+              if (state is AssetTransferFailure) {
+                final cause = state.exception.cause;
+                final errorMessage = cause is DioError
+                    ? cause.response?.data['message']
+                    : state.exception.message;
+
+                await showOkAlertDialog(
+                  context: context,
+                  title: 'Unable to send asset',
+                  message: errorMessage,
+                );
+
                 router.pop(context);
               }
             },
             builder: (context, state) {
+              if (state is AssetTransferInProgress) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+
               if (state is! AssetTransferSuccess) {
                 return Container();
               }

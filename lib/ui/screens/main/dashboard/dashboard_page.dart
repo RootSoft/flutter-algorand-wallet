@@ -146,6 +146,10 @@ class _DashboardPageState extends State<DashboardPage>
                             );
                           }
 
+                          if (state.transactions.isEmpty) {
+                            return Center(child: Text('No transactions found'));
+                          }
+
                           return ListView.separated(
                             scrollDirection: Axis.vertical,
                             shrinkWrap: true,

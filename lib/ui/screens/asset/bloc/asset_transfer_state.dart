@@ -27,6 +27,13 @@ class AssetTransferSuccess extends AssetTransferState {
   List<Object?> get props => [asset];
 }
 
+class AssetTransferInProgress extends AssetTransferState {
+  AssetTransferInProgress();
+
+  @override
+  List<Object?> get props => [];
+}
+
 class AssetTransferSentSuccess extends AssetTransferState {
   final String transactionId;
 

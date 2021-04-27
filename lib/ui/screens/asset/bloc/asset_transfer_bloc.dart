@@ -31,22 +31,58 @@ class AssetTransferBloc extends Bloc<AssetTransferEvent, AssetTransferState> {
       final account = accountRepository.account;
       if (account == null) return;
 
-      final amount = Algo.format(event.amount, currentState.asset.decimals);
+      final asset = currentState.asset;
+      final recipient =
+          Address.fromAlgorandAddress(address: event.recipientAddress);
 
-      // Transfer the assets
-      try {
-        final txId = await algorand.assetManager.transfer(
-          assetId: currentState.asset.id,
-          account: account,
-          receiver:
-              Address.fromAlgorandAddress(address: event.recipientAddress),
-          amount: amount.toInt(),
-        );
-
-        yield AssetTransferSentSuccess(txId);
-      } on AlgorandException catch (ex) {
-        yield AssetTransferFailure(ex);
+      if (asset.id == -1) {
+        final amount = event.amount;
+        yield* _sendPayment(account, recipient, amount);
+      } else {
+        final amount = Algo.format(event.amount, asset.decimals);
+        yield* _transferAsset(account, asset.id, recipient, amount);
       }
+    }
+  }
+
+  Stream<AssetTransferState> _sendPayment(
+      Account account, Address recipient, double amount) async* {
+    try {
+      final txId = await algorand.sendPayment(
+        account: account,
+        recipient: recipient,
+        amount: Algo.toMicroAlgos(amount),
+      );
+
+      yield AssetTransferInProgress();
+
+      // Wait until the transaction is confirmed
+      final pendingTx = await algorand.waitForConfirmation(txId);
+
+      yield AssetTransferSentSuccess(txId);
+    } on AlgorandException catch (ex) {
+      yield AssetTransferFailure(ex);
+    }
+  }
+
+  Stream<AssetTransferState> _transferAsset(
+      Account account, int assetId, Address recipient, int amount) async* {
+    try {
+      final txId = await algorand.assetManager.transfer(
+        assetId: assetId,
+        account: account,
+        receiver: recipient,
+        amount: amount.toInt(),
+      );
+
+      yield AssetTransferInProgress();
+
+      // Wait until the transaction is confirmed
+      final pendingTx = await algorand.waitForConfirmation(txId);
+
+      yield AssetTransferSentSuccess(txId);
+    } on AlgorandException catch (ex) {
+      yield AssetTransferFailure(ex);
     }
   }
 }
