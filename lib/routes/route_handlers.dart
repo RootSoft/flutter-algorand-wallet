@@ -2,7 +2,8 @@ import 'package:flutter_algorand_wallet/models/algorand_standard_asset_model.dar
 import 'package:flutter_algorand_wallet/models/navigation/navigation_bloc.dart';
 import 'package:flutter_algorand_wallet/routes/routes.dart';
 import 'package:flutter_algorand_wallet/theme/themes.dart';
-import 'package:flutter_algorand_wallet/ui/screens/asset/asset_transfer.dart';
+import 'package:flutter_algorand_wallet/ui/screens/asset/create/asset_form.dart';
+import 'package:flutter_algorand_wallet/ui/screens/asset/transfer/asset_transfer.dart';
 import 'package:flutter_algorand_wallet/ui/screens/main/bloc/main_bloc.dart';
 import 'package:flutter_algorand_wallet/ui/screens/screens.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,6 +34,15 @@ var assetTransferHandler = Handler(
       create: (_) =>
           AssetTransferBloc(accountRepository: accountRepository)..start(asset),
       child: AssetTransferScreen(),
+    );
+  },
+);
+
+var assetFormHandler = Handler(
+  handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
+    return BlocProvider<AssetFormBloc>(
+      create: (_) => AssetFormBloc(accountRepository: accountRepository),
+      child: AssetFormScreen(),
     );
   },
 );

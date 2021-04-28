@@ -2,7 +2,7 @@ import 'package:algorand_dart/algorand_dart.dart';
 import 'package:flutter_algorand_wallet/di/service_locator.dart';
 import 'package:flutter_algorand_wallet/models/models.dart';
 import 'package:flutter_algorand_wallet/repositories/account_repository.dart';
-import 'package:flutter_algorand_wallet/ui/screens/asset/asset_transfer.dart';
+import 'package:flutter_algorand_wallet/ui/screens/asset/transfer/asset_transfer.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AssetTransferBloc extends Bloc<AssetTransferEvent, AssetTransferState> {

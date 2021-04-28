@@ -6,7 +6,7 @@ import 'package:flutter_algorand_wallet/ui/components/algorand/crypto_card.dart'
 import 'package:flutter_algorand_wallet/ui/components/algorand/transaction_tile.dart';
 import 'package:flutter_algorand_wallet/ui/components/buttons/rounded_button.dart';
 import 'package:flutter_algorand_wallet/ui/components/spacing.dart';
-import 'package:flutter_algorand_wallet/ui/screens/asset/asset_transfer_screen.dart';
+import 'package:flutter_algorand_wallet/ui/screens/asset/transfer/asset_transfer_screen.dart';
 import 'package:flutter_algorand_wallet/ui/screens/main/dashboard/dashboard.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';

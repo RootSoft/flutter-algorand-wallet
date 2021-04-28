@@ -3,7 +3,7 @@ import 'package:algorand_dart/algorand_dart.dart';
 import 'package:flutter_algorand_wallet/theme/themes.dart';
 import 'package:flutter_algorand_wallet/ui/components/buttons/rounded_button.dart';
 import 'package:flutter_algorand_wallet/ui/components/spacing.dart';
-import 'package:flutter_algorand_wallet/ui/screens/asset/asset_transfer.dart';
+import 'package:flutter_algorand_wallet/ui/screens/asset/transfer/asset_transfer.dart';
 import 'package:flutter_algorand_wallet/utils/crypto_utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinbox/material.dart';

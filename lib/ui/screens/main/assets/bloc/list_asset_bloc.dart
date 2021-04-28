@@ -3,6 +3,7 @@ import 'package:flutter_algorand_wallet/di/service_locator.dart';
 import 'package:flutter_algorand_wallet/repositories/account_repository.dart';
 import 'package:flutter_algorand_wallet/ui/screens/main/assets/bloc/list_asset_event.dart';
 import 'package:flutter_algorand_wallet/ui/screens/main/assets/bloc/list_asset_state.dart';
+import 'package:flutter_algorand_wallet/utils/number_utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ListAssetBloc extends Bloc<ListAssetEvent, ListAssetState> {
@@ -90,9 +91,5 @@ class ListAssetBloc extends Bloc<ListAssetEvent, ListAssetState> {
         yield ListAssetFailure(exception: ex);
       }
     }
-  }
-
-  bool isInt(String s) {
-    return int.tryParse(s) != null;
   }
 }
