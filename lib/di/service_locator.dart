@@ -12,14 +12,12 @@ class ServiceLocator {
 /// We can use GetIt or Provider
 final algorand = Algorand(
   algodClient: AlgodClient(
-    apiUrl: PureStake.TESTNET_ALGOD_API_URL,
-    apiKey: 'YOUR API KEY',
-    tokenKey: PureStake.API_TOKEN_HEADER,
+    apiUrl: AlgoExplorer.TESTNET_ALGOD_API_URL,
+    apiKey: '',
   ),
   indexerClient: IndexerClient(
-    apiUrl: PureStake.TESTNET_INDEXER_API_URL,
-    apiKey: 'YOUR API KEY',
-    tokenKey: PureStake.API_TOKEN_HEADER,
+    apiUrl: AlgoExplorer.TESTNET_INDEXER_API_URL,
+    apiKey: '',
   ),
 );
 

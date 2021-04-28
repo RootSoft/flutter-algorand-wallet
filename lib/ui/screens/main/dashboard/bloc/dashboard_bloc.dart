@@ -159,8 +159,8 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
         continue;
       }
 
-      // Prevent spamming the API
-      await Future.delayed(const Duration(milliseconds: 200));
+      // Prevent spamming the API - Only for PureStake
+      // await Future.delayed(const Duration(milliseconds: 1500));
 
       try {
         final assetResponse =
