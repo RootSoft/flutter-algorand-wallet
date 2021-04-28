@@ -5,6 +5,7 @@ import 'package:flutter_algorand_wallet/models/navigation/navigation_tab.dart';
 import 'package:flutter_algorand_wallet/theme/themes.dart';
 import 'package:flutter_algorand_wallet/ui/screens/main/bloc/main_bloc.dart';
 import 'package:flutter_algorand_wallet/ui/screens/main/dashboard/dashboard.dart';
+import 'package:flutter_algorand_wallet/ui/screens/main/profile/profile.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
@@ -16,7 +17,7 @@ final tabHandlers = <NavigationTab, Widget>{
   NavigationTab(label: 'Transactions', icon: FeatherIcons.globe):
       Container(color: Palette.accentColor),
   NavigationTab(label: 'Profile', icon: FeatherIcons.user):
-      Container(color: Palette.accentColor),
+      provideProfilePage(),
 };
 
 final tabs = tabHandlers.keys.toList();

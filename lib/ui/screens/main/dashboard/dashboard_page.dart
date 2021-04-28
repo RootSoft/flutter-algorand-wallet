@@ -1,6 +1,4 @@
-import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:algorand_dart/algorand_dart.dart';
-import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter_algorand_wallet/theme/themes.dart';
 import 'package:flutter_algorand_wallet/ui/components/algorand/algorand_balance.dart';
 import 'package:flutter_algorand_wallet/ui/components/algorand/crypto_card.dart';
@@ -12,7 +10,6 @@ import 'package:flutter_algorand_wallet/ui/screens/main/dashboard/dashboard.dart
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class DashboardPage extends StatefulWidget {
   @override
@@ -192,33 +189,6 @@ class _DashboardPageState extends State<DashboardPage>
                       color: Palette.subtitleColor,
                     ),
               ),
-              Spacer(),
-              IconButton(
-                icon: Icon(FeatherIcons.creditCard),
-                onPressed: () async {
-                  await launch(
-                    'https://bank.testnet.algorand.network/?account=${account.publicAddress}',
-                    forceWebView: true,
-                    enableJavaScript: true,
-                  );
-                },
-              ),
-              IconButton(
-                icon: Icon(FeatherIcons.book),
-                onPressed: () async {
-                  final seedphrase = await account.seedPhrase;
-
-                  await showTextInputDialog(
-                    context: context,
-                    title: 'Your passphrase',
-                    textFields: [
-                      DialogTextField(
-                        initialText: seedphrase.join(' '),
-                      ),
-                    ],
-                  );
-                },
-              )
             ],
           ),
           VerticalSpacing(of: marginSizeSmall),

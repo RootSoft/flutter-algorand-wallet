@@ -12,7 +12,11 @@ dependencies:
     sdk: flutter
 
   # Algorand
-  algorand_dart: ^0.0.2-beta.3
+  # algorand_dart: ^0.0.2-beta.3
+  algorand_dart:
+    git:
+      url: https://github.com/RootSoft/algorand-dart.git
+      ref: master
 
   # State Management & BLoC
   provider: ^5.0.0
@@ -46,6 +50,7 @@ dependencies:
   adaptive_dialog: ^0.10.0+5
   url_launcher: ^6.0.3
   clipboard: ^0.1.3
+  fluttertoast: ^8.0.6
 
 dev_dependencies:
   flutter_test:
