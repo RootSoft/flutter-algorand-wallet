@@ -1,4 +1,5 @@
 import 'package:algorand_dart/algorand_dart.dart';
+import 'package:clipboard/clipboard.dart';
 import 'package:flutter_algorand_wallet/theme/themes.dart';
 import 'package:flutter_algorand_wallet/ui/components/algorand/algorand_balance.dart';
 import 'package:flutter_algorand_wallet/ui/components/algorand/crypto_card.dart';
@@ -8,6 +9,7 @@ import 'package:flutter_algorand_wallet/ui/components/spacing.dart';
 import 'package:flutter_algorand_wallet/ui/screens/asset/asset_transfer_screen.dart';
 import 'package:flutter_algorand_wallet/ui/screens/main/dashboard/dashboard.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
@@ -82,6 +84,16 @@ class _DashboardPageState extends State<DashboardPage>
                 ),
                 onTapped: (asset) =>
                     context.read<DashboardBloc>().setSelectedAsset(asset),
+                onLongPress: (asset) async {
+                  await FlutterClipboard.copy('${asset.id}');
+
+                  final success = await Fluttertoast.showToast(
+                    msg: "Asset id copied to clipboard",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    fontSize: 16.0,
+                  );
+                },
               ),
               separatorBuilder: (BuildContext context, int index) {
                 return SizedBox(width: paddingSizeNormal);

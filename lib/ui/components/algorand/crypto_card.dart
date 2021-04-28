@@ -12,12 +12,14 @@ class CryptoCard extends StatelessWidget {
   final selectedColor = Palette.accentColor;
   final unselectedColor = Color(0xFFfff9f9);
   final OnCryptoCardTap onTapped;
+  final OnCryptoCardTap? onLongPress;
 
   CryptoCard({
     required this.asset,
     required this.onTapped,
     this.selected = false,
     this.image,
+    this.onLongPress,
   });
 
   @override
@@ -32,6 +34,12 @@ class CryptoCard extends StatelessWidget {
       ),
       child: InkWell(
         onTap: () => onTapped(asset),
+        onLongPress: () {
+          final onLongPress = this.onLongPress;
+          if (onLongPress == null) return;
+
+          onLongPress(asset);
+        },
         child: Container(
           width: 160,
           padding: EdgeInsets.all(paddingSizeMedium),

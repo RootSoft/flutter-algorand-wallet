@@ -14,8 +14,8 @@ final tabHandlers = <NavigationTab, Widget>{
       provideDashboardPage(),
   NavigationTab(label: 'Wallet', icon: FeatherIcons.pocket):
       provideWalletPage(),
-  NavigationTab(label: 'Transactions', icon: FeatherIcons.globe):
-      Container(color: Palette.accentColor),
+  NavigationTab(label: 'Assets', icon: FeatherIcons.shoppingCart):
+      provideAssetPage(),
   NavigationTab(label: 'Profile', icon: FeatherIcons.user):
       provideProfilePage(),
 };

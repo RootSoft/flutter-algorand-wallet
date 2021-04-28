@@ -1,4 +1,6 @@
 import 'package:flutter_algorand_wallet/theme/themes.dart';
+import 'package:flutter_algorand_wallet/ui/screens/main/assets/list_asset_page.dart';
+import 'package:flutter_algorand_wallet/ui/screens/main/assets/list_assets.dart';
 import 'package:flutter_algorand_wallet/ui/screens/main/dashboard/bloc/dashboard_bloc.dart';
 import 'package:flutter_algorand_wallet/ui/screens/main/dashboard/dashboard_page.dart';
 import 'package:flutter_algorand_wallet/ui/screens/main/wallets/wallet.dart';
@@ -23,5 +25,13 @@ Widget provideWalletPage() {
   return BlocProvider(
     create: (_) => WalletBloc(accountRepository: accountRepository)..start(),
     child: WalletPage(),
+  );
+}
+
+/// Inject & provide the list assets screen
+Widget provideAssetPage() {
+  return BlocProvider<ListAssetBloc>(
+    create: (_) => ListAssetBloc()..start(),
+    child: ListAssetPage(),
   );
 }
