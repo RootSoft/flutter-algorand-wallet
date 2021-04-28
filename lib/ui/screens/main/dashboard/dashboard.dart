@@ -31,7 +31,7 @@ Widget provideWalletPage() {
 /// Inject & provide the list assets screen
 Widget provideAssetPage() {
   return BlocProvider<ListAssetBloc>(
-    create: (_) => ListAssetBloc()..start(),
+    create: (_) => ListAssetBloc(accountRepository: accountRepository)..start(),
     child: ListAssetPage(),
   );
 }

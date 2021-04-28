@@ -9,7 +9,6 @@ import 'package:flutter_algorand_wallet/ui/components/spacing.dart';
 import 'package:flutter_algorand_wallet/ui/screens/asset/asset_transfer_screen.dart';
 import 'package:flutter_algorand_wallet/ui/screens/main/dashboard/dashboard.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
@@ -87,12 +86,11 @@ class _DashboardPageState extends State<DashboardPage>
                 onLongPress: (asset) async {
                   await FlutterClipboard.copy('${asset.id}');
 
-                  final success = await Fluttertoast.showToast(
-                    msg: "Asset id copied to clipboard",
-                    toastLength: Toast.LENGTH_LONG,
-                    gravity: ToastGravity.BOTTOM,
-                    fontSize: 16.0,
+                  final snackBar = SnackBar(
+                    content: Text('Asset id copied to clipboard'),
                   );
+
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 },
               ),
               separatorBuilder: (BuildContext context, int index) {
@@ -165,6 +163,18 @@ class _DashboardPageState extends State<DashboardPage>
                             itemCount: transactions.length,
                             itemBuilder: (widget, index) => TransactionTile(
                               transaction: transactions[index],
+                              onLongPress: (transaction) async {
+                                await FlutterClipboard.copy(
+                                    '${transaction.receiver}');
+
+                                final snackBar = SnackBar(
+                                  content: Text(
+                                      'Receiver address copied to clipboard'),
+                                );
+
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                              },
                             ),
                             separatorBuilder:
                                 (BuildContext context, int index) {

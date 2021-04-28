@@ -5,30 +5,36 @@ import 'package:flutter_algorand_wallet/models/transaction_event.dart';
 import 'package:flutter_algorand_wallet/theme/themes.dart';
 import 'package:flutter_algorand_wallet/ui/components/spacing.dart';
 
+typedef OnTransactionTap = void Function(TransactionEvent);
+
 class TransactionTile extends StatelessWidget {
   final TransactionEvent transaction;
+  final OnTransactionTap onLongPress;
 
-  TransactionTile({required this.transaction});
+  TransactionTile({required this.transaction, required this.onLongPress});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: paddingSizeDefault),
-      child: Row(
-        children: [
-          Expanded(
-            flex: 2,
-            child: Text(
-              transaction.receiver,
-              style: Theme.of(context).textTheme.subtitle1,
+    return GestureDetector(
+      onLongPress: () => onLongPress(transaction),
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: paddingSizeDefault),
+        child: Row(
+          children: [
+            Expanded(
+              flex: 2,
+              child: Text(
+                transaction.receiver,
+                style: Theme.of(context).textTheme.subtitle1,
+              ),
             ),
-          ),
-          Spacer(),
-          Icon(iconData),
-          HorizontalSpacing(of: paddingSizeNormal),
-          Text((transaction.amount * pow(10, transaction.decimals * -1))
-              .toStringAsFixed(transaction.decimals))
-        ],
+            Spacer(),
+            Icon(iconData),
+            HorizontalSpacing(of: paddingSizeNormal),
+            Text((transaction.amount * pow(10, transaction.decimals * -1))
+                .toStringAsFixed(transaction.decimals))
+          ],
+        ),
       ),
     );
   }

@@ -1,10 +1,11 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:clipboard/clipboard.dart';
 import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter_algorand_wallet/theme/themes.dart';
 import 'package:flutter_algorand_wallet/ui/components/buttons/rounded_button.dart';
 import 'package:flutter_algorand_wallet/ui/components/spacing.dart';
 import 'package:flutter_algorand_wallet/ui/screens/main/assets/list_assets.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 class ListAssetPage extends StatelessWidget {
@@ -12,35 +13,53 @@ class ListAssetPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = context.watch<ListAssetBloc>().state;
+    return BlocListener<ListAssetBloc, ListAssetState>(
+      listener: (_, state) async {
+        if (state is ListAssetOptInSuccess) {
+          final snackBar = SnackBar(
+            content:
+                Text('You can now send & receive ${state.asset.params.name}'),
+          );
 
-    return Container(
-      padding: EdgeInsets.all(paddingSizeDefault),
-      child: Column(
-        children: [
-          /// Show search bar
-          TextFormField(
-            autovalidateMode: AutovalidateMode.always,
-            decoration: const InputDecoration(
-              icon: Icon(FeatherIcons.search),
-              hintText: 'Search for assets',
-              focusColor: Palette.accentColor,
-              hoverColor: Palette.accentColor,
-              border: InputBorder.none,
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }
+
+        if (state is ListAssetFailure) {
+          await showOkAlertDialog(
+            context: context,
+            title: 'Unable to opt in to asset',
+            message: state.exception.message,
+          );
+        }
+      },
+      child: Container(
+        padding: EdgeInsets.all(paddingSizeDefault),
+        child: Column(
+          children: [
+            /// Show search bar
+            TextFormField(
+              autovalidateMode: AutovalidateMode.always,
+              decoration: const InputDecoration(
+                icon: Icon(FeatherIcons.search),
+                hintText: 'Search for assets',
+                focusColor: Palette.accentColor,
+                hoverColor: Palette.accentColor,
+                border: InputBorder.none,
+              ),
+              cursorColor: Palette.accentColor,
+              onFieldSubmitted: (input) {
+                context.read<ListAssetBloc>().search(input);
+              },
             ),
-            cursorColor: Palette.accentColor,
-            onFieldSubmitted: (input) {
-              context.read<ListAssetBloc>().search(input);
-            },
-          ),
 
-          VerticalSpacing(of: paddingSizeDefault),
+            VerticalSpacing(of: paddingSizeDefault),
 
-          /// Display list of assets
-          Expanded(
-            child: _buildAssetList(context),
-          )
-        ],
+            /// Display list of assets
+            Expanded(
+              child: _buildAssetList(context),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -75,12 +94,11 @@ class ListAssetPage extends StatelessWidget {
                   onTap: () async {
                     await FlutterClipboard.copy('${asset.index}');
 
-                    final success = await Fluttertoast.showToast(
-                      msg: "Asset id copied to clipboard",
-                      toastLength: Toast.LENGTH_LONG,
-                      gravity: ToastGravity.BOTTOM,
-                      fontSize: 16.0,
+                    final snackBar = SnackBar(
+                      content: Text('Asset id copied to clipboard'),
                     );
+
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   },
                   child: Text(
                     '${asset.params.name} (${asset.index})',
@@ -90,7 +108,9 @@ class ListAssetPage extends StatelessWidget {
               ),
               RoundedButton(
                 text: 'Opt in',
-                onPressed: () {},
+                onPressed: () {
+                  context.read<ListAssetBloc>().optIn(asset);
+                },
               ),
             ],
           ),

@@ -1,3 +1,4 @@
+import 'package:algorand_dart/algorand_dart.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class ListAssetEvent extends Equatable {
@@ -14,4 +15,13 @@ class ListAssetSearched extends ListAssetEvent {
 
   @override
   List<Object?> get props => [input];
+}
+
+class ListAssetOptInStarted extends ListAssetEvent {
+  final Asset asset;
+
+  ListAssetOptInStarted(this.asset);
+
+  @override
+  List<Object?> get props => [asset];
 }

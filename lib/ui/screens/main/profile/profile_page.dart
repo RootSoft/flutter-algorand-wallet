@@ -5,7 +5,6 @@ import 'package:flutter_algorand_wallet/ui/components/buttons/rounded_button.dar
 import 'package:flutter_algorand_wallet/ui/components/spacing.dart';
 import 'package:flutter_algorand_wallet/ui/screens/main/dashboard/dashboard.dart';
 import 'package:flutter_algorand_wallet/ui/screens/main/profile/profile.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -47,12 +46,11 @@ class ProfilePage extends StatelessWidget {
             onTap: () async {
               await FlutterClipboard.copy(account.publicAddress);
 
-              final success = await Fluttertoast.showToast(
-                msg: "Algorand address copied to clipboard",
-                toastLength: Toast.LENGTH_LONG,
-                gravity: ToastGravity.BOTTOM,
-                fontSize: 16.0,
+              final snackBar = SnackBar(
+                content: Text('Algorand address copied to clipboard'),
               );
+
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
             },
             child: RichText(
               text: TextSpan(
@@ -87,12 +85,11 @@ class ProfilePage extends StatelessWidget {
             onTap: () async {
               await FlutterClipboard.copy(seedphrase);
 
-              final success = await Fluttertoast.showToast(
-                msg: "Word list copied to clipboard",
-                toastLength: Toast.LENGTH_LONG,
-                gravity: ToastGravity.BOTTOM,
-                fontSize: 16.0,
+              final snackBar = SnackBar(
+                content: Text('Word list copied to clipboard'),
               );
+
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
             },
             child: RichText(
               text: TextSpan(

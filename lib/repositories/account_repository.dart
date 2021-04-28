@@ -67,6 +67,14 @@ class AccountRepository {
     return account;
   }
 
+  void reload() {
+    final account = this.account;
+    if (account == null) return;
+
+    // Publish account on stream
+    _accountSubject.add(account);
+  }
+
   void close() {
     _accountSubject.close();
   }
