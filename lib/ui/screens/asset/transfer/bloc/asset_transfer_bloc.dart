@@ -31,6 +31,8 @@ class AssetTransferBloc extends Bloc<AssetTransferEvent, AssetTransferState> {
       final account = accountRepository.account;
       if (account == null) return;
 
+      yield AssetTransferInProgress();
+
       final asset = currentState.asset;
       final recipient =
           Address.fromAlgorandAddress(address: event.recipientAddress);
@@ -54,10 +56,11 @@ class AssetTransferBloc extends Bloc<AssetTransferEvent, AssetTransferState> {
         amount: Algo.toMicroAlgos(amount),
       );
 
-      yield AssetTransferInProgress();
-
       // Wait until the transaction is confirmed
-      final pendingTx = await algorand.waitForConfirmation(txId);
+      await algorand.waitForConfirmation(txId);
+
+      // Reload the dashboard
+      accountRepository.reload();
 
       yield AssetTransferSentSuccess(txId);
     } on AlgorandException catch (ex) {
@@ -75,10 +78,11 @@ class AssetTransferBloc extends Bloc<AssetTransferEvent, AssetTransferState> {
         amount: amount.toInt(),
       );
 
-      yield AssetTransferInProgress();
-
       // Wait until the transaction is confirmed
-      final pendingTx = await algorand.waitForConfirmation(txId);
+      await algorand.waitForConfirmation(txId);
+
+      // Reload the dashboard
+      accountRepository.reload();
 
       yield AssetTransferSentSuccess(txId);
     } on AlgorandException catch (ex) {
