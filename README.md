@@ -1,4 +1,4 @@
-# flutter_algorand_wallet
+# Flutter Algorand Wallet
 
 This solution will guide you in developing and deploying a cross-platform wallet application using the Algorand blockchain features that addresses the following use case:
 
@@ -38,7 +38,7 @@ When everything is set up, select your target platform and click run!
 ![](https://i.imgur.com/mNaZkww.png)
 
 
-** Troubleshoot **
+**Troubleshoot**
 
 First of all, run ```flutter doctor``` to check which tools are installed on the local machine and which tools need to be configured. Make sure all of them are checked and enabled.
 
