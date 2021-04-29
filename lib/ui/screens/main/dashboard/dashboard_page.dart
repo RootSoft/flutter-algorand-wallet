@@ -1,5 +1,8 @@
 import 'package:algorand_dart/algorand_dart.dart';
 import 'package:clipboard/clipboard.dart';
+import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
+import 'package:feather_icons/feather_icons.dart';
+import 'package:flutter_algorand_wallet/models/transaction_event.dart';
 import 'package:flutter_algorand_wallet/theme/themes.dart';
 import 'package:flutter_algorand_wallet/ui/components/algorand/algorand_balance.dart';
 import 'package:flutter_algorand_wallet/ui/components/algorand/crypto_card.dart';
@@ -11,6 +14,7 @@ import 'package:flutter_algorand_wallet/ui/screens/main/dashboard/dashboard.dart
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DashboardPage extends StatefulWidget {
   @override
@@ -19,6 +23,8 @@ class DashboardPage extends StatefulWidget {
 
 class _DashboardPageState extends State<DashboardPage>
     with WidgetsBindingObserver {
+  CustomPopupMenuController _menuController = CustomPopupMenuController();
+
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
@@ -34,6 +40,7 @@ class _DashboardPageState extends State<DashboardPage>
 
   @override
   void dispose() {
+    _menuController.dispose();
     WidgetsBinding.instance?.removeObserver(this);
     super.dispose();
   }
@@ -56,12 +63,14 @@ class _DashboardPageState extends State<DashboardPage>
     final accountInformation = state.information;
     final assets = state.assets;
     final transactions = state.transactions;
+
     return Container(
       width: double.infinity,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
+          VerticalSpacing(of: paddingSizeDefault),
           _buildTotalBalance(
             context,
             accountInformation.amountWithoutPendingRewards,
@@ -161,20 +170,20 @@ class _DashboardPageState extends State<DashboardPage>
                             scrollDirection: Axis.vertical,
                             shrinkWrap: true,
                             itemCount: transactions.length,
-                            itemBuilder: (widget, index) => TransactionTile(
-                              transaction: transactions[index],
-                              onLongPress: (transaction) async {
-                                await FlutterClipboard.copy(
-                                    '${transaction.receiver}');
-
-                                final snackBar = SnackBar(
-                                  content: Text(
-                                      'Receiver address copied to clipboard'),
+                            itemBuilder: (widget, index) => CustomPopupMenu(
+                              controller: _menuController,
+                              barrierColor: Colors.transparent,
+                              pressType: PressType.singleClick,
+                              arrowColor: Palette.accentColor,
+                              menuBuilder: () {
+                                return _buildTransactionMenu(
+                                  transactions[index],
                                 );
-
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
                               },
+                              child: TransactionTile(
+                                transaction: transactions[index],
+                                onTap: (transaction) async {},
+                              ),
                             ),
                             separatorBuilder:
                                 (BuildContext context, int index) {
@@ -230,6 +239,77 @@ class _DashboardPageState extends State<DashboardPage>
             balance: Algo.fromMicroAlgos(pendingRewards).toString(),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildTransactionMenu(TransactionEvent transaction) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(5),
+      child: Container(
+        width: 300,
+        color: Palette.accentColor,
+        child: GridView.count(
+          padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+          crossAxisCount: 4,
+          crossAxisSpacing: 0,
+          mainAxisSpacing: 10,
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          children: [
+            IconButton(
+              icon: Icon(
+                FeatherIcons.eye,
+                color: Colors.white,
+              ),
+              onPressed: () async {
+                await launch(
+                    'https://testnet.algoexplorer.io/tx/${transaction.id}');
+
+                _menuController.hideMenu();
+              },
+            ),
+            IconButton(
+              icon: Icon(
+                FeatherIcons.copy,
+                color: Colors.white,
+              ),
+              onPressed: () async {
+                await FlutterClipboard.copy('${transaction.id}');
+
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Copied transaction id to clipboard')),
+                );
+
+                _menuController.hideMenu();
+              },
+            ),
+            IconButton(
+              icon: Icon(
+                FeatherIcons.user,
+                color: Colors.white,
+              ),
+              onPressed: () async {
+                await FlutterClipboard.copy('${transaction.receiver}');
+
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Copied address to clipboard')),
+                );
+
+                _menuController.hideMenu();
+              },
+            ),
+            IconButton(
+              icon: Icon(
+                FeatherIcons.xCircle,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                _menuController.hideMenu();
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
