@@ -41,7 +41,7 @@ dependencies:
 
   feather_icons: ^1.1.0-nullsafety.0
 
-  flutter_spinbox: ^0.4.0-nullsafety.0
+  flutter_spinbox: ^0.5.1
 
   qr_flutter: ^4.0.0
 
@@ -62,7 +62,7 @@ dev_dependencies:
   test: ^1.16.5
 
   # Build Runner & Source Generation
-  build_runner: ^1.11.5
+  build_runner: ^2.0.1
 
   # JSON serialization
   json_serializable: ^4.0.2
