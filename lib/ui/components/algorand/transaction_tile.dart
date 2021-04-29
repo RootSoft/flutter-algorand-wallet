@@ -24,7 +24,7 @@ class TransactionTile extends StatelessWidget {
             Expanded(
               flex: 2,
               child: Text(
-                transaction.receiver,
+                transaction.id,
                 style: Theme.of(context).textTheme.subtitle1,
               ),
             ),

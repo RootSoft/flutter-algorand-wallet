@@ -2,6 +2,7 @@ import 'package:algorand_dart/algorand_dart.dart';
 import 'package:equatable/equatable.dart';
 
 class TransactionEvent extends Equatable {
+  final String id;
   final TransactionEventType type;
   final String sender;
   final String receiver;
@@ -9,6 +10,7 @@ class TransactionEvent extends Equatable {
   final int decimals;
 
   TransactionEvent({
+    required this.id,
     required this.type,
     required this.sender,
     required this.receiver,
@@ -41,6 +43,7 @@ class TransactionEvent extends Equatable {
     }
 
     return TransactionEvent(
+      id: transaction.id,
       type: type,
       sender: sender,
       receiver: receiver ?? '',
