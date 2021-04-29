@@ -13,7 +13,6 @@ import 'package:flutter_algorand_wallet/ui/screens/asset/transfer/asset_transfer
 import 'package:flutter_algorand_wallet/ui/screens/main/dashboard/dashboard.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DashboardPage extends StatefulWidget {
@@ -290,11 +289,8 @@ class _DashboardPageState extends State<DashboardPage>
                 color: Colors.white,
               ),
               onPressed: () async {
-                await FlutterClipboard.copy('${transaction.receiver}');
-
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Copied address to clipboard')),
-                );
+                router.navigateTo(
+                    context, '/share/address/${transaction.receiver}');
 
                 _menuController.hideMenu();
               },
@@ -337,22 +333,7 @@ class _DashboardPageState extends State<DashboardPage>
     return RoundedButton(
       text: 'Receive',
       onPressed: () {
-        showDialog(
-          context: context,
-          builder: (_) {
-            return AlertDialog(
-              content: SizedBox(
-                width: 200,
-                height: 200,
-                child: QrImage(
-                  data: address,
-                  version: QrVersions.auto,
-                  size: 200.0,
-                ),
-              ),
-            );
-          },
-        );
+        router.navigateTo(context, '/share/address/$address');
       },
     );
   }

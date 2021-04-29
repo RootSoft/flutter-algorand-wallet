@@ -6,6 +6,7 @@ import 'package:flutter_algorand_wallet/ui/screens/asset/create/asset_form.dart'
 import 'package:flutter_algorand_wallet/ui/screens/asset/transfer/asset_transfer.dart';
 import 'package:flutter_algorand_wallet/ui/screens/main/bloc/main_bloc.dart';
 import 'package:flutter_algorand_wallet/ui/screens/screens.dart';
+import 'package:flutter_algorand_wallet/ui/screens/share/share_address_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 var rootHandler = Handler(
@@ -43,6 +44,19 @@ var assetFormHandler = Handler(
     return BlocProvider<AssetFormBloc>(
       create: (_) => AssetFormBloc(accountRepository: accountRepository),
       child: AssetFormScreen(),
+    );
+  },
+);
+
+var shareAddressHandler = Handler(
+  handlerFunc: (BuildContext? context, Map<String, List<String>> params) {
+    final address = params['address']?[0] ?? '';
+
+    return BlocProvider<AssetFormBloc>(
+      create: (_) => AssetFormBloc(accountRepository: accountRepository),
+      child: ShareAddressScreen(
+        address: address,
+      ),
     );
   },
 );
