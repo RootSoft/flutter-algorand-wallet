@@ -79,8 +79,12 @@ class ListAssetBloc extends Bloc<ListAssetEvent, ListAssetState> {
 
       try {
         // Opt in to the asset
-        final txId = await algorand.assetManager
-            .optIn(assetId: asset.index, account: account);
+        final txId = await algorand.assetManager.optIn(
+          assetId: asset.index,
+          account: account,
+        );
+
+        // Wait for confirmation
         await algorand.waitForConfirmation(txId);
 
         // Update the dashboard
