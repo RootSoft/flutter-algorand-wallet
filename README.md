@@ -11,7 +11,7 @@ The solution architecture relies on the recently released community SDK, [algora
 ## Requirements
 1. Android Studio (or another Flutter-supported IDE)
 2. Flutter 2.0 (>=) - stable channel
-3. (Optional) A [PureStake](../../tutorials/getting-started-purestake-api-service/) Account and the corresponding API key OR a [locally hosted node](../../docs/run-a-node/setup/install/)
+3. (Optional) A [PureStake](../../tutorials/getting-started-purestake-api-service/) Account and the corresponding API key OR a [locally hosted node](https://developer.algorand.org/docs/run-a-node/setup/install/)
 
 ## Setting up our development environment
 
