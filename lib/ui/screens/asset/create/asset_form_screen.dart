@@ -1,5 +1,5 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
-import 'package:algorand_dart/algorand_dart.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_algorand_wallet/theme/themes.dart';
 import 'package:flutter_algorand_wallet/ui/components/buttons/rounded_button.dart';
 import 'package:flutter_algorand_wallet/ui/components/spacing.dart';
