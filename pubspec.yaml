@@ -12,7 +12,7 @@ dependencies:
     sdk: flutter
 
   # Algorand
-  algorand_dart: ^0.0.2-beta.8
+  algorand_dart: ^1.0.1
   #  algorand_dart:
   #    git:
   #      url: https://github.com/RootSoft/algorand-dart.git
