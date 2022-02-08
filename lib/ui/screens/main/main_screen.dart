@@ -7,7 +7,6 @@ import 'package:flutter_algorand_wallet/ui/screens/main/bloc/main_bloc.dart';
 import 'package:flutter_algorand_wallet/ui/screens/main/dashboard/dashboard.dart';
 import 'package:flutter_algorand_wallet/ui/screens/main/profile/profile.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
 final tabHandlers = <NavigationTab, Widget>{
   NavigationTab(label: 'Dashboard', icon: FeatherIcons.barChart2):

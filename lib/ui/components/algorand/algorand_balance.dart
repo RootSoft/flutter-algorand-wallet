@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_algorand_wallet/theme/themes.dart';
 import 'package:flutter_algorand_wallet/ui/components/spacing.dart';
 

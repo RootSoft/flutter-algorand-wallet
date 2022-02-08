@@ -1,10 +1,8 @@
 import 'package:flutter_algorand_wallet/theme/themes.dart';
-import 'package:flutter_algorand_wallet/ui/screens/main/assets/list_asset_page.dart';
 import 'package:flutter_algorand_wallet/ui/screens/main/assets/list_assets.dart';
 import 'package:flutter_algorand_wallet/ui/screens/main/dashboard/bloc/dashboard_bloc.dart';
 import 'package:flutter_algorand_wallet/ui/screens/main/dashboard/dashboard_page.dart';
 import 'package:flutter_algorand_wallet/ui/screens/main/wallets/wallet.dart';
-import 'package:flutter_algorand_wallet/ui/screens/main/wallets/wallet_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 export 'bloc/dashboard_bloc.dart';

@@ -7,7 +7,6 @@ import 'package:flutter_algorand_wallet/ui/components/spacing.dart';
 import 'package:flutter_algorand_wallet/ui/screens/asset/create/asset_form.dart';
 import 'package:flutter_algorand_wallet/ui/screens/main/assets/list_assets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
 class ListAssetPage extends StatelessWidget {
   static String routeName = '/assets';
