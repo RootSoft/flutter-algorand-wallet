@@ -1,12 +1,11 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
-import 'package:algorand_dart/algorand_dart.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_algorand_wallet/theme/themes.dart';
 import 'package:flutter_algorand_wallet/ui/components/buttons/rounded_button.dart';
 import 'package:flutter_algorand_wallet/ui/components/spacing.dart';
 import 'package:flutter_algorand_wallet/ui/screens/asset/create/asset_form.dart';
 import 'package:flutter_algorand_wallet/utils/number_utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
 class AssetFormScreen extends StatefulWidget {
   static String routeName = '/asset/create';

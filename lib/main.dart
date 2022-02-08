@@ -1,7 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_algorand_wallet/database/entities.dart';
 import 'package:flutter_algorand_wallet/database/entities/account_entity.dart';
-import 'package:flutter_algorand_wallet/routes/routes.dart';
 import 'package:flutter_algorand_wallet/theme/themes.dart';
 
 void main() async {
