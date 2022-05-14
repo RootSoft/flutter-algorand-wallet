@@ -28,10 +28,10 @@ class TransactionEvent extends Equatable {
     final sender = transaction.sender;
     final receiver = isAssetTransfer
         ? transaction.assetTransferTransaction?.receiver
-        : transaction.payment?.receiver;
+        : transaction.paymentTransaction?.receiver;
     final amount = isAssetTransfer
         ? transaction.assetTransferTransaction?.amount
-        : transaction.payment?.amount;
+        : transaction.paymentTransaction?.amount;
 
     TransactionEventType type = TransactionEventType.UNKNOWN;
     if (sender == account.publicAddress && receiver == account.publicAddress) {
@@ -43,7 +43,7 @@ class TransactionEvent extends Equatable {
     }
 
     return TransactionEvent(
-      id: transaction.id,
+      id: transaction.id.toString(),
       type: type,
       sender: sender,
       receiver: receiver ?? '',
